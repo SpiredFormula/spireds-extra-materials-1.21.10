@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "spireds-extra-materials:mithril"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "spireds-extra-materials:mithril"
+      }
+    ]
+  }
+}

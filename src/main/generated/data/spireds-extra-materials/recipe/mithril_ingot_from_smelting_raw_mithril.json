@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "mithril_ingot",
+  "ingredient": "spireds-extra-materials:raw_mithril",
+  "result": {
+    "id": "spireds-extra-materials:mithril_ingot"
+  }
+}

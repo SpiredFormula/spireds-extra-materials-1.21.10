@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "mithril-mod",
+	"id": "spireds-extra-materials",
 	"version": "${version}",
-	"name": "Mithril Mod",
+	"name": "Spired's Extra Materials",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
 		"Me!"
@@ -12,28 +12,28 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/mithril-mod/icon.png",
+	"icon": "assets/spireds-extra-materials/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"spired.mithrilmod.MithrilMod"
+			"spired.spiredsextramaterials.SpiredsExtraMaterials"
 		],
 		"client": [
-			"spired.mithrilmod.MithrilModClient"
+			"spired.spiredsextramaterials.SpiredsExtraMaterialsClient"
 		],
 		"fabric-datagen": [
-			"spired.mithrilmod.datgen.MithrilModDataGenerator"
+			"spired.spiredsextramaterials.datagen.SpiredsExtraMaterialsDataGenerator"
 		]
 	},
 	"mixins": [
-		"mithril-mod.mixins.json",
+		"spireds-extra-materials.mixins.json",
 		{
-			"config": "mithril-mod.client.mixins.json",
+			"config": "spireds-extra-materials.client.mixins.json",
 			"environment": "client"
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.18.1",
+		"fabricloader": ">=0.18.3",
 		"minecraft": "~1.21.10",
 		"java": ">=21",
 		"fabric-api": "*"

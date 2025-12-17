@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -9,11 +9,7 @@ group = project.maven_group
 base {
 	archivesName = project.archives_base_name
 }
-fabricApi {
-	configureDataGeneration() {
-		client = true
-	}
-}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
@@ -26,12 +22,18 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"mithril-mod" {
+		"spireds-extra-materials" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
 	}
 
+}
+
+fabricApi {
+	configureDataGeneration {
+		client = true
+	}
 }
 
 dependencies {

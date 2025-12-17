@@ -1,8 +1,8 @@
 {
   "values": [
-    "mithril-mod:mithril_helmet",
-    "mithril-mod:mithril_chestplate",
-    "mithril-mod:mithril_leggings",
-    "mithril-mod:mithril_boots"
+    "spireds-extra-materials:mithril_helmet",
+    "spireds-extra-materials:mithril_chestplate",
+    "spireds-extra-materials:mithril_leggings",
+    "spireds-extra-materials:mithril_boots"
   ]
 }
