@@ -1,7 +1,7 @@
 package spired.spiredsextramaterials.item;
 
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.tag.BlockTags;
 
 public class ModToolMaterials {
 

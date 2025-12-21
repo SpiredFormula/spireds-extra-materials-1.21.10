@@ -1,66 +1,66 @@
 package spired.spiredsextramaterials.item.custom;
 
-import net.minecraft.core.Holder;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 
 import java.util.function.Supplier;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.world.ServerWorld;
 
 
 public class ModArmorItem extends Item {
 
-    private Holder<MobEffect> effect;
+    private RegistryEntry<StatusEffect> effect;
     private TagKey<Item> tag;
-    private Supplier<MobEffectInstance> effectSupplier;
+    private Supplier<StatusEffectInstance> effectSupplier;
 
-    public ModArmorItem(Properties properties, TagKey<Item> t, Supplier<MobEffectInstance> es) {
+    public ModArmorItem(net.minecraft.item.Item.Settings properties, TagKey<Item> t, Supplier<StatusEffectInstance> es) {
         super(properties);
         tag = t;
         effectSupplier = es;
-        effect = effectSupplier.get().getEffect();
+        effect = effectSupplier.get().getEffectType();
 
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, ServerLevel serverLevel, Entity entity, @Nullable EquipmentSlot equipmentSlot) {
+    public void inventoryTick(ItemStack itemStack, ServerWorld serverLevel, Entity entity, @Nullable EquipmentSlot equipmentSlot) {
         super.inventoryTick(itemStack, serverLevel, entity, equipmentSlot);
 
-        if(!serverLevel.isClientSide()) {
-            if(entity instanceof Player){
+        if(!serverLevel.isClient()) {
+            if(entity instanceof PlayerEntity){
 
-                Player player = (Player) entity;
+                PlayerEntity player = (PlayerEntity) entity;
 
                 // If player is not wearing the helmet then return
-                if(!(player.getInventory().getItem(39).getItem().equals(this))) return;
+                if(!(player.getInventory().getStack(39).getItem().equals(this))) return;
 
 
                 if(checkIfWearingFullSet(player) && checkArmorType(player, tag)){
-                    boolean hasEffect = player.hasEffect(effect);
+                    boolean hasEffect = player.hasStatusEffect(effect);
                     if(!hasEffect){
-                        player.addEffect(effectSupplier.get());
+                        player.addStatusEffect(effectSupplier.get());
                     }
                 }
             }
         }
     }
 
-    private boolean checkIfWearingFullSet(Player player){
-        Inventory inventory =  player.getInventory();
+    private boolean checkIfWearingFullSet(PlayerEntity player){
+        PlayerInventory inventory =  player.getInventory();
 
-        ItemStack boots = player.getInventory().getItem(36);
-        ItemStack leggings = player.getInventory().getItem(37);
-        ItemStack chestPlate = player.getInventory().getItem(38);
-        ItemStack helmet = player.getInventory().getItem(39);
+        ItemStack boots = player.getInventory().getStack(36);
+        ItemStack leggings = player.getInventory().getStack(37);
+        ItemStack chestPlate = player.getInventory().getStack(38);
+        ItemStack helmet = player.getInventory().getStack(39);
 
         // Check if the player has a full set of armor on
         if (boots.isEmpty() || leggings.isEmpty() || chestPlate.isEmpty() || helmet.isEmpty()){
@@ -69,15 +69,15 @@ public class ModArmorItem extends Item {
         return true;
 
     }
-    private boolean checkArmorType(Player player, TagKey<Item> tag){
-        ItemStack boots = player.getInventory().getItem(36);
-        ItemStack leggings = player.getInventory().getItem(37);
-        ItemStack chestPlate = player.getInventory().getItem(38);
-        ItemStack helmet = player.getInventory().getItem(39);
+    private boolean checkArmorType(PlayerEntity player, TagKey<Item> tag){
+        ItemStack boots = player.getInventory().getStack(36);
+        ItemStack leggings = player.getInventory().getStack(37);
+        ItemStack chestPlate = player.getInventory().getStack(38);
+        ItemStack helmet = player.getInventory().getStack(39);
 
         // If all bits of armor have the correct tag return true
-        return boots.getTags().toList().contains(tag) && leggings.getTags().toList().contains(tag)
-                && chestPlate.getTags().toList().contains(tag) && helmet.getTags().toList().contains(tag);
+        return boots.streamTags().toList().contains(tag) && leggings.streamTags().toList().contains(tag)
+                && chestPlate.streamTags().toList().contains(tag) && helmet.streamTags().toList().contains(tag);
     }
 
 }

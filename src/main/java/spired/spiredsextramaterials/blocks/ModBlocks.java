@@ -1,37 +1,37 @@
 package spired.spiredsextramaterials.blocks;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import spired.spiredsextramaterials.SpiredsExtraMaterials;
 
 import java.util.function.Function;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.Identifier;
 
 public class ModBlocks {
-    public static Block MITHRIL_ORE = registerBlock("mithril_ore", Block::new, BlockBehaviour.Properties.of().sound(SoundType.STONE).requiresCorrectToolForDrops().strength(3.0f,3.0f),true);
-    public static Block DEEPSLATE_MITHRIL_ORE = registerBlock("deepslate_mithril_ore", Block::new, BlockBehaviour.Properties.of().sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops().strength(4.5F, 3.0F), true);
-    public static Block MITHRIL_BLOCK = registerBlock("mithril_block", Block::new, BlockBehaviour.Properties.of().sound(SoundType.IRON).requiresCorrectToolForDrops().strength(5.0F, 6.0F), true);
+    public static Block MITHRIL_ORE = registerBlock("mithril_ore", Block::new, AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(3.0f,3.0f),true);
+    public static Block DEEPSLATE_MITHRIL_ORE = registerBlock("deepslate_mithril_ore", Block::new, AbstractBlock.Settings.create().sounds(BlockSoundGroup.DEEPSLATE).requiresTool().strength(4.5F, 3.0F), true);
+    public static Block MITHRIL_BLOCK = registerBlock("mithril_block", Block::new, AbstractBlock.Settings.create().sounds(BlockSoundGroup.IRON).requiresTool().strength(5.0F, 6.0F), true);
 
 
-    private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem){
+    private static Block registerBlock(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem){
 
-        ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(SpiredsExtraMaterials.MOD_ID,name ));
+        RegistryKey<Block> blockKey = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(SpiredsExtraMaterials.MOD_ID,name ));
 
-        Block block = blockFactory.apply(settings.setId(blockKey));
+        Block block = blockFactory.apply(settings.registryKey(blockKey));
         if(shouldRegisterItem){
-            ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(SpiredsExtraMaterials.MOD_ID,name ));
-            BlockItem blockItem = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
-            Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
+            RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(SpiredsExtraMaterials.MOD_ID,name ));
+            BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey).useBlockPrefixedTranslationKey());
+            Registry.register(Registries.ITEM, itemKey, blockItem);
         }
 
-        return Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
+        return Registry.register(Registries.BLOCK, blockKey, block);
     }
 
     public static void initialize(){
